@@ -46,7 +46,13 @@ export default function UsersManagement({ navigation }) {
     { id: 10, username: "Bob", role: "User", joiningDate: "2024-02-20", email: "bob@example.com", profileImage: require('../assets/profil2.png') },
 
    
-    
+    { id: 1, username: "Alice", role: "Admin", joiningDate: "2024-01-15", email: "alice@example.com", profileImage: require('../assets/profil1.png') },
+    { id: 2, username: "Bob", role: "User", joiningDate: "2024-02-20", email: "bob@example.com", profileImage: require('../assets/profil2.png') },
+    { id: 3, username: "Charlie", role: "Moderator", joiningDate: "2024-03-10", email: "charlie@example.com", profileImage: require('../assets/profil3.png') },
+    { id: 4, username: "David", role: "User", joiningDate: "2024-04-05", email: "david@example.com", profileImage: require('../assets/profil4.png') },
+    { id: 5, username: "Bob", role: "User", joiningDate: "2024-02-20", email: "bob@example.com", profileImage: require('../assets/profil2.png') },
+    { id: 6, username: "Alice", role: "Admin", joiningDate: "2024-01-15", email: "alice@example.com", profileImage: require('../assets/profil1.png') },
+   
   ];
 
   // Gérer l'ouverture et la fermeture du modal

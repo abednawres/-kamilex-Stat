@@ -26,6 +26,17 @@ export default function TokenManagement({ navigation }) {
     { id: 8, name: "Proxym", foldersCreated: "456", tokensSpent: "1458",profileImage: require('../assets/Proxym.png') },
     { id: 9, name: "Envast", foldersCreated: "123", tokensSpent: "7895",profileImage: require('../assets/Envast.png') },
     { id: 10,name: "Proxym", foldersCreated: "56", tokensSpent: "1236",profileImage: require('../assets/Proxym.png') },
+// 2 ème page 
+    { id: 1, name: "Envast",foldersCreated: "123", tokensSpent: "4545",profileImage: require('../assets/Envast.png') },
+    { id: 2, name: "Proxym", foldersCreated: "145", tokensSpent: "5265",profileImage: require('../assets/Proxym.png') },
+    { id: 3, name: "Envast",foldersCreated: "456", tokensSpent: "4562",profileImage: require('../assets/Envast.png') },
+    { id: 4, name: "Proxym", foldersCreated: "789", tokensSpent: "1023",profileImage: require('../assets/Proxym.png') },
+    { id: 5, name: "Envast", foldersCreated: "723", tokensSpent: "1478",profileImage: require('../assets/Envast.png') },
+    { id: 6, name: "Proxym", foldersCreated: "125", tokensSpent: "1000",profileImage: require('../assets/Proxym.png') },
+    { id: 7, name: "Envast", foldersCreated: "230", tokensSpent: "2000",profileImage: require('../assets/Envast.png') },
+    { id: 8, name: "Proxym", foldersCreated: "456", tokensSpent: "1458",profileImage: require('../assets/Proxym.png') },
+    { id: 9, name: "Envast", foldersCreated: "123", tokensSpent: "7895",profileImage: require('../assets/Envast.png') },
+    { id: 10,name: "Proxym", foldersCreated: "56", tokensSpent: "1236",profileImage: require('../assets/Proxym.png') },
 
    
     
@@ -120,7 +131,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#25295C',        // Couleur légèrement grisée
+    color: '#848A9C',        // Couleur légèrement grisée
     marginHorizontal: 20, // Espacement horizontal
     marginTop: 15, 
     marginBottom: 10,           // Espacement au-dessus

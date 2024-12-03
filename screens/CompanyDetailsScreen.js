@@ -5,6 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import FolderList from '../components/Folderlist';
 import FolderHistogram from '../components/FolderHistogram';
+import PieChartCard from '../components/PieChartCard';
 
 const CompanyDetails = ({ route, navigation }) => {
     const { companyId, companyData } = route.params;
@@ -41,6 +42,22 @@ const CompanyDetails = ({ route, navigation }) => {
         { id: 4, FolderID: "#302", Classification: "In Progress", TokenSpent: "50" },
         { id: 5, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
         { id: 6, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
+        { id: 7, FolderID: "#857", Classification: "To Do", TokenSpent: "50" },
+        { id: 8, FolderID: "#302", Classification: "In Progress", TokenSpent: "50" },
+        { id: 9, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
+        { id: 10, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
+
+       // 2 ème page 
+        { id: 1, FolderID: "#123", Classification: "In Progress", TokenSpent: "18" },
+        { id: 2, FolderID: "#875", Classification: "Done", TokenSpent: "25" },
+        { id: 3, FolderID: "#857", Classification: "To Do", TokenSpent: "50" },
+        { id: 4, FolderID: "#302", Classification: "In Progress", TokenSpent: "50" },
+        { id: 5, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
+        { id: 6, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
+        { id: 7, FolderID: "#857", Classification: "To Do", TokenSpent: "50" },
+        { id: 8, FolderID: "#302", Classification: "In Progress", TokenSpent: "50" },
+        { id: 9, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
+        { id: 10, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
     ];
      
     // Gérer l'ouverture et la fermeture du modal
@@ -63,6 +80,15 @@ const CompanyDetails = ({ route, navigation }) => {
                     <Text style={styles.companyValue}>{selectedCompany.value}</Text>
                 </View>
             </View>
+            <ScrollView 
+       horizontal
+       showsHorizontalScrollIndicator={false}contentContainerStyle={styles.cardScrollContainer}
+>        
+         <PieChartCard>Number of folders</PieChartCard>
+         <PieChartCard>Number of Tokens</PieChartCard>
+         <PieChartCard>Number of users</PieChartCard>
+          
+          </ScrollView>
             
             <Text style={styles.subTitle}>
                 Please review the evolution of the number of folders:
@@ -149,6 +175,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#FAFAFA',
         alignItems: 'center',
     },
+    cardScrollContainer: {
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+    },
     appBarContainer: {
         height: 80,
         width: "100%",
@@ -158,6 +188,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#336699',
         zIndex: 999,
     },
+  
     header: {
         flexDirection: 'row',
         alignItems: 'center',

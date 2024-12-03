@@ -30,12 +30,24 @@ export default function FolderManagement({ navigation }) {
     { id: 2, FolderID: "#875", Classification: "Done", TokenSpent: "25" },
     { id: 3, FolderID: "#857", Classification: "To Do", TokenSpent: "50" },
     { id: 4, FolderID: "#302", Classification: "In Progress", TokenSpent: "50" },
-    { id: 5, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
-    { id: 6, FolderID: "#105", Classification: "Done", TokenSpent: "20" },
-    
-    
+    { id: 5, FolderID: "#105", Classification: "To Do", TokenSpent: "80" },
+    { id: 6, FolderID: "#110", Classification: "Done", TokenSpent: "90" },
+    { id: 7, FolderID: "#103", Classification: "In Progress", TokenSpent: "10" },
+    { id: 8, FolderID: "#109", Classification: "Done", TokenSpent: "50" },
+    { id: 9, FolderID: "#115", Classification: "In Progress", TokenSpent: "80" },
+    { id: 10, FolderID: "#109", Classification: "Done", TokenSpent: "50" },
+   //2ème page 
+    { id: 1, FolderID: "#123", Classification: "In Progress", TokenSpent: "18" },
+    { id: 2, FolderID: "#875", Classification: "Done", TokenSpent: "25" },
+    { id: 3, FolderID: "#857", Classification: "To Do", TokenSpent: "50" },
+    { id: 4, FolderID: "#302", Classification: "In Progress", TokenSpent: "50" },
+    { id: 5, FolderID: "#105", Classification: "To Do", TokenSpent: "80" },
+    { id: 6, FolderID: "#110", Classification: "Done", TokenSpent: "90" },
+    { id: 7, FolderID: "#103", Classification: "In Progress", TokenSpent: "10" },
+    { id: 8, FolderID: "#109", Classification: "Done", TokenSpent: "50" },
+    { id: 9, FolderID: "#115", Classification: "In Progress", TokenSpent: "80" },
+    { id: 10, FolderID: "#109", Classification: "Done", TokenSpent: "50" },
    
-    
     
   ];
 
@@ -102,49 +114,60 @@ export default function FolderManagement({ navigation }) {
       </View>
 
       {/* Modal de filtrage */}
+      {/* Modal de filtrage */}
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={toggleModal}
+  animationType="slide"
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={toggleModal}
+>
+  <View style={styles.modalOverlay}>
+    <View style={styles.modalContainer}>
+      {/* AppBar pour le modal */}
+      <View style={styles.modalAppBar}>
+        <Text style={styles.modalAppBarTitle}>Filter</Text>
+        <TouchableOpacity onPress={toggleModal}>
+          <Icon name="close" size={20} color="#ffffff" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Ajout d'un espace entre l'AppBar et le titre */}
+      <Text style={styles.modalSubtitle}>Filter by Status</Text>
+
+      {/* Picker pour sélectionner un statut avec bordure */}
+      <View style={styles.pickerWithBorder}>
+        <Picker
+          selectedValue={filterType}
+          onValueChange={(itemValue) => setFilterType(itemValue)}
+          style={styles.pickerText}
+        >
+          <Picker.Item label="Select Status" value="" />
+          {statusOptions.map((status) => (
+            <Picker.Item key={status.id} label={status.label} value={status.value} />
+          ))}
+        </Picker>
+      </View>
+
+      {/* Bouton pour appliquer le filtre */}
+      <TouchableOpacity
+        onPress={() => {
+          console.log("Filtre appliqué :", filterType); // Remplace cette ligne par ta logique
+          toggleModal();
+        }}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Filter by Status</Text>
+        <LinearGradient
+          colors={['#242155', '#262D60', '#44C7F1']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.applyButton}
+        >
+          <Text style={styles.applyButtonText}>Apply</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
 
-            {/* Picker pour sélectionner un statut avec bordure */}
-            <View style={styles.pickerWithBorder}>
-              <Picker
-                selectedValue={filterType}
-                onValueChange={(itemValue) => setFilterType(itemValue)}
-                style={styles.pickerText}
-              >
-                <Picker.Item label="Select Status" value="" />
-                {statusOptions.map((status) => (
-                  <Picker.Item key={status.id} label={status.label} value={status.value} />
-                ))}
-              </Picker>
-            </View>
-
-            {/* Bouton pour appliquer le filtre */}
-            <TouchableOpacity
-              onPress={() => {
-                console.log("Filtre appliqué :", filterType); // Remplace cette ligne par ta logique
-                toggleModal();
-              }}
-            >
-              <LinearGradient
-                colors={['#242155', '#262D60', '#44C7F1']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.applyButton}
-              >
-                <Text style={styles.applyButtonText}>Apply</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
 
        {/* Intégration du folderlist sous l'histogramme */}
        <FolderList folders={FolderData} />
@@ -248,19 +271,43 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
+  modalAppBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#336699',
+    padding: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    width: 308, // Ajustement pour la largeur du conteneur
+    height: 50,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 10,
+  },
+  modalAppBarTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#ffffff',
+  },
+  modalSubtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#848A9C',
+    textAlign: 'left',
+    marginTop: 50, // Ajout d'un espace pour éviter le chevauchement avec l'AppBar
+    marginBottom: 20,
+  },
+  
   modalContainer: {
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
     width: '80%',
   },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-    color:"#A1B9DE",
-  },
+  
+ 
   applyButton: {
     borderRadius: 8,
     paddingVertical: 10,

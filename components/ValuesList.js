@@ -1,16 +1,34 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
 const ValuesList = ({ values }) => {
+  const [currentPage, setCurrentPage] = useState(1); // Page active
+  const valuesPerPage = 10; // Number of values per page
+
+  // Calculating the indices to slice the values
+  const indexOfLastValue = currentPage * valuesPerPage;
+  const indexOfFirstValue = indexOfLastValue - valuesPerPage;
+  const currentValues = values.slice(indexOfFirstValue, indexOfLastValue); // Values for the current page
+
+  // Pagination controls
+  const totalPages = Math.ceil(values.length / valuesPerPage);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Values List</Text>
 
-        {/* Conteneur général avec défilement horizontal */}
+        {/* General container with horizontal scroll */}
         <ScrollView horizontal showsHorizontalScrollIndicator={true}>
           <View>
-            {/* Titres des champs */}
+            {/* Column headers */}
             <View style={styles.headerRow}>
               <View style={styles.columnHeader}>
                 <Text style={styles.headerText}>Value Name</Text>
@@ -26,9 +44,9 @@ const ValuesList = ({ values }) => {
               </View>
             </View>
 
-            {/* Liste des valeurs avec défilement vertical */}
+            {/* List of values with vertical scroll */}
             <ScrollView style={styles.listContainer} nestedScrollEnabled={true}>
-              {values.map((value) => (
+              {currentValues.map((value) => (
                 <View key={value.id} style={styles.valueRow}>
                   <View style={styles.column}>
                     <Text style={styles.valueName}>{value.valueName}</Text>
@@ -47,13 +65,46 @@ const ValuesList = ({ values }) => {
             </ScrollView>
           </View>
         </ScrollView>
+
+        {/* Pagination */}
+        <View style={styles.pagination}>
+          <TouchableOpacity
+            style={styles.pageArrow}
+            disabled={currentPage === 1}
+            onPress={() => handlePageChange(currentPage - 1)}
+          >
+            <Text style={styles.pageArrowText}>{'<'}</Text>
+          </TouchableOpacity>
+          {pages.map((page) => (
+            <TouchableOpacity
+              key={page}
+              style={[
+                styles.pageNumber,
+                currentPage === page && styles.activePageNumber, // Active page style
+              ]}
+              onPress={() => handlePageChange(page)}
+            >
+              <Text
+                style={currentPage === page ? styles.activePageText : styles.inactivePageText}
+              >
+                {page}
+              </Text>
+            </TouchableOpacity>
+          ))}
+          <TouchableOpacity
+            style={styles.pageArrow}
+            disabled={currentPage === totalPages}
+            onPress={() => handlePageChange(currentPage + 1)}
+          >
+            <Text style={styles.pageArrowText}>{'>'}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
- 
   card: {
     backgroundColor: '#ffffff',
     borderRadius: 10,
@@ -122,6 +173,41 @@ const styles = StyleSheet.create({
     color: '#565656',
     alignSelf: 'center',
     width: '145%', // Centre le texte verticalement
+  },
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  pageArrow: {
+    padding: 5,
+    marginHorizontal: 10,
+  },
+  pageArrowText: {
+    fontSize: 18,
+    color: '#9DB0CE',
+  },
+  pageNumber: {
+    marginHorizontal: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#9DB0CE',
+  },
+  activePageNumber: {
+    backgroundColor: '#85A8CC',
+    borderColor: '#85A8CC',
+  },
+  inactivePageText: {
+    fontSize: 14,
+    color: '#555',
+  },
+  activePageText: {
+    fontSize: 14,
+    color: '#FFF',
+    fontWeight: 'bold',
   },
 });
 

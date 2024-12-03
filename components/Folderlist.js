@@ -1,12 +1,29 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
 const FolderList = ({ folders = [] }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const foldersPerPage = 10;
+
+  // Pagination logic
+  const indexOfLastFolder = currentPage * foldersPerPage;
+  const indexOfFirstFolder = indexOfLastFolder - foldersPerPage;
+  const currentFolders = folders.slice(indexOfFirstFolder, indexOfLastFolder);
+
+  const totalPages = Math.ceil(folders.length / foldersPerPage);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>Folder List</Text>
 
-      {/* En-têtes des colonnes */}
+      {/* Column headers */}
       <View style={styles.headerRow}>
         <View style={[styles.column, styles.columnHeader]}>
           <Text style={styles.headerText}>FolderID</Text>
@@ -19,16 +36,15 @@ const FolderList = ({ folders = [] }) => {
         </View>
       </View>
 
-      {/* Liste des dossiers avec ScrollView */}
+      {/* Folder rows */}
       <ScrollView style={styles.folderList} nestedScrollEnabled={true}>
-        {folders.length > 0 ? (
-          folders.map((folder) => (
+        {currentFolders.length > 0 ? (
+          currentFolders.map((folder) => (
             <View key={folder.id} style={styles.folderRow}>
               <View style={styles.column}>
                 <Text style={styles.folderText}>{folder.FolderID}</Text>
               </View>
               <View style={styles.column}>
-                {/* Barre colorée contenant le texte */}
                 <View
                   style={[
                     styles.statusBar,
@@ -54,11 +70,45 @@ const FolderList = ({ folders = [] }) => {
           <Text style={styles.noFoldersText}>No folders available</Text>
         )}
       </ScrollView>
+
+      {/* Pagination */}
+      <View style={styles.pagination}>
+        <TouchableOpacity
+          style={styles.pageArrow}
+          disabled={currentPage === 1}
+          onPress={() => handlePageChange(currentPage - 1)}
+        >
+          <Text style={styles.pageArrowText}>{'<'}</Text>
+        </TouchableOpacity>
+        {pages.map((page) => (
+          <TouchableOpacity
+            key={page}
+            style={[
+              styles.pageNumber,
+              currentPage === page && styles.activePageNumber,
+            ]}
+            onPress={() => handlePageChange(page)}
+          >
+            <Text
+              style={currentPage === page ? styles.activePageText : styles.inactivePageText}
+            >
+              {page}
+            </Text>
+          </TouchableOpacity>
+        ))}
+        <TouchableOpacity
+          style={styles.pageArrow}
+          disabled={currentPage === totalPages}
+          onPress={() => handlePageChange(currentPage + 1)}
+        >
+          <Text style={styles.pageArrowText}>{'>'}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-// Fonctions utilitaires (inchangées)
+// Utility functions for status bar colors
 const getStatusColor = (status) => {
   switch (status.toLowerCase()) {
     case 'in progress':
@@ -85,6 +135,7 @@ const getTextColor = (status) => {
   }
 };
 
+// Styles
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
@@ -103,7 +154,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   folderList: {
-    maxHeight: 200, // Limitation de la hauteur pour permettre le scroll
+    maxHeight: 200,
   },
   headerRow: {
     flexDirection: 'row',
@@ -149,6 +200,41 @@ const styles = StyleSheet.create({
   noFoldersText: {
     paddingLeft: 15,
     color: '#565656',
+  },
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  pageArrow: {
+    padding: 5,
+    marginHorizontal: 10,
+  },
+  pageArrowText: {
+    fontSize: 18,
+    color: '#9DB0CE',
+  },
+  pageNumber: {
+    marginHorizontal: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#9DB0CE',
+  },
+  activePageNumber: {
+    backgroundColor: '#85A8CC',
+    borderColor: '#85A8CC',
+  },
+  inactivePageText: {
+    fontSize: 14,
+    color: '#555',
+  },
+  activePageText: {
+    fontSize: 14,
+    color: '#FFF',
+    fontWeight: 'bold',
   },
 });
 
