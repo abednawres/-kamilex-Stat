@@ -17,6 +17,11 @@ import TokenManagementScreen from './screens/TokenManagementScreen';
 import FilteredBydocoucompScreen from './screens/FilteredBydocoucompScreen';
 import FilteredBycompScreen from './screens/FilteredBycompScreen';
 import CompanyDetailsScreen from './screens/CompanyDetailsScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
+import EditPasswordScreen from './screens/EditPasswordScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import PrivacyPolicyScreen from './screens/PrivacyPolicyScreen';
+
 
 
 
@@ -39,6 +44,12 @@ export default function App() {
         <Stack.Screen name="FilteredBydocoucomp" component={FilteredBydocoucompScreen}/>
         <Stack.Screen name="FilteredBycomp" component={FilteredBycompScreen}/>
         <Stack.Screen name="CompanyDetails" component={ CompanyDetailsScreen} />
+        <Stack.Screen name="EditProfile" component={ EditProfileScreen} />
+        <Stack.Screen name=" EditPassword" component={EditPasswordScreen } />
+        <Stack.Screen name=" Settings" component={SettingsScreen} />
+        <Stack.Screen name=" PrivacyPolicy" component={PrivacyPolicyScreen} />
+
+
         
 
 

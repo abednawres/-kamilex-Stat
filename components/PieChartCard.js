@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 3,
         marginRight: 15,
+        marginLeft:15,
         justifyContent: 'center',
         alignItems: 'center',
     },

@@ -5,6 +5,7 @@ import MyLineChart from '../components/MyLineChart';
 import InfoCard from '../components/InfoCard'; 
 
 export default function Dashboard({ navigation }) {
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.appBarContainer}>
@@ -65,6 +66,15 @@ export default function Dashboard({ navigation }) {
        onPress={() => navigation.navigate('ValuesManagement')} 
        imageSource={require('../assets/stat4.png')} 
      />
+
+
+<TouchableOpacity 
+  style={styles.profileButton} 
+  onPress={() => navigation.navigate('EditProfile')}
+
+>
+  <Text style={styles.profileButtonText}>Profile</Text>
+</TouchableOpacity>
       
     </ScrollView>
   );
@@ -126,5 +136,19 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     paddingHorizontal: 10,
     backgroundColor: '#FFFFFF',
+  },
+  profileButton: {
+    marginTop: 20,
+    marginHorizontal: '5%',
+    height: 50,
+    backgroundColor: '#336699',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  profileButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
