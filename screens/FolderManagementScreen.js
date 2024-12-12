@@ -114,7 +114,7 @@ export default function FolderManagement({ navigation }) {
       </View>
 
       {/* Modal de filtrage */}
-      {/* Modal de filtrage */}
+     
       <Modal
   animationType="slide"
   transparent={true}

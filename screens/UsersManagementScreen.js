@@ -191,7 +191,7 @@ export default function UsersManagement({ navigation }) {
 
       {/* Titre de la page */}
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Folder Management</Text>
+        <Text style={styles.title}>Users Management</Text>
         <Image
           source={require("../assets/user.png")}
           style={styles.userImage}

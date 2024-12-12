@@ -11,9 +11,10 @@ export default function Login({ navigation }) {
   };
 
   const handleLoginPress = () => {
-    // Logique de connexion ici (ajouter une validation)
-    console.log("Login button pressed");
+    // Logique de connexion ici (ajouter une validation )
+    navigation.navigate('Dashboard');
   };
+  
 
   const handleForgotPasswordPress = () => {
     navigation.navigate('ForgetPassword'); // Redirige vers la page de mot de passe oublié

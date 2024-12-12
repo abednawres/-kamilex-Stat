@@ -5,7 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import FolderList from '../components/Folderlist';
 import FolderHistogram from '../components/FolderHistogram';
-import PieChartCard from '../components/PieChartCard';
+import PieChartCard from '../components/PieChartCard'; // Assurez-vous que le chemin est correct
 
 const CompanyDetails = ({ route, navigation }) => {
     const { companyId, companyData } = route.params;
@@ -63,6 +63,13 @@ const CompanyDetails = ({ route, navigation }) => {
     // Gérer l'ouverture et la fermeture du modal
     const toggleModal = () => setModalVisible(!modalVisible);
     
+    // Données pour les pie charts
+    const pieChartData = [
+        { title: "Number of folders", data: [{ value: 85, color: '#B8D8E3' }, { value: 15, color: '#E9EBF3' }], titleColor: '#B8D8E3' },
+        { title: "Number of Tokens", data: [{ value: 47, color: '#7EA093' }, { value: 53, color: '#E9EBF3' }], titleColor: '#7EA093' },
+        { title: "Number of users", data: [{ value: 68, color: '#A1B9DE' }, { value: 32, color: '#E9EBF3' }], titleColor: '#A1B9DE' },
+    ];
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             {/* AppBar */}
@@ -82,11 +89,12 @@ const CompanyDetails = ({ route, navigation }) => {
             </View>
             <ScrollView 
        horizontal
-       showsHorizontalScrollIndicator={false}contentContainerStyle={styles.cardScrollContainer}
+       showsHorizontalScrollIndicator={false}
+       contentContainerStyle={styles.cardScrollContainer}
 >        
-         <PieChartCard>Number of folders</PieChartCard>
-         <PieChartCard>Number of Tokens</PieChartCard>
-         <PieChartCard>Number of users</PieChartCard>
+         {pieChartData.map((item, index) => (
+           <PieChartCard key={index} title={item.title} data={item.data} titleColor={item.titleColor} />
+         ))}
           
           </ScrollView>
             
@@ -119,49 +127,60 @@ const CompanyDetails = ({ route, navigation }) => {
                 </TouchableOpacity>
             </View>
 
-            {/* Modal de filtrage */}
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={toggleModal}
-            >
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContainer}>
-                        <Text style={styles.modalTitle}>Filter by Status</Text>
+          {/* Modal de filtrage */}
+     
+      <Modal
+  animationType="slide"
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={toggleModal}
+>
+  <View style={styles.modalOverlay}>
+    <View style={styles.modalContainer}>
+      {/* AppBar pour le modal */}
+      <View style={styles.modalAppBar}>
+        <Text style={styles.modalAppBarTitle}>Filter</Text>
+        <TouchableOpacity onPress={toggleModal}>
+          <Icon name="close" size={20} color="#ffffff" />
+        </TouchableOpacity>
+      </View>
 
-                        {/* Picker pour sélectionner un statut avec bordure */}
-                        <View style={styles.pickerWithBorder}>
-                            <Picker
-                                selectedValue={filterType}
-                                onValueChange={(itemValue) => setFilterType(itemValue)}
-                                style={styles.pickerText}
-                            >
-                                <Picker.Item label="Select Status" value="" />
-                                {statusOptions.map((status) => (
-                                    <Picker.Item key={status.id} label={status.label} value={status.value} />
-                                ))}
-                            </Picker>
-                        </View>
+      {/* Ajout d'un espace entre l'AppBar et le titre */}
+      <Text style={styles.modalSubtitle}>Filter by Status</Text>
 
-                        <TouchableOpacity
-                            onPress={() => {
-                                console.log("Filtre appliqué :", filterType); // Remplace cette ligne par ta logique
-                                toggleModal();
-                            }}
-                        >
-                            <LinearGradient
-                                colors={['#242155', '#262D60', '#44C7F1']}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 1 }}
-                                style={styles.applyButton}
-                            >
-                                <Text style={styles.applyButtonText}>Apply</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+      {/* Picker pour sélectionner un statut avec bordure */}
+      <View style={styles.pickerWithBorder}>
+        <Picker
+          selectedValue={filterType}
+          onValueChange={(itemValue) => setFilterType(itemValue)}
+          style={styles.pickerText}
+        >
+          <Picker.Item label="Select Status" value="" />
+          {statusOptions.map((status) => (
+            <Picker.Item key={status.id} label={status.label} value={status.value} />
+          ))}
+        </Picker>
+      </View>
+
+      {/* Bouton pour appliquer le filtre */}
+      <TouchableOpacity
+        onPress={() => {
+          console.log("Filtre appliqué :", filterType); // Remplace cette ligne par ta logique
+          toggleModal();
+        }}
+      >
+        <LinearGradient
+          colors={['#242155', '#262D60', '#44C7F1']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.applyButton}
+        >
+          <Text style={styles.applyButtonText}>Apply</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
 
             {/* Liste des dossiers */}
             <FolderList folders={FolderData} />
@@ -260,27 +279,7 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         height: 40,
         width: '15%',
-    },
-    modalOverlay: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContainer: {
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-        width: '90%',
-    },
-    modalTitle: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        textAlign: 'center',
-        color:"#A1B9DE",
       },
-     
       pickerWithBorder: {
         borderWidth: 1,
         borderColor: '#D0D0D0', // Couleur de la bordure
@@ -288,24 +287,62 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF', // Fond blanc
         paddingHorizontal: 3, // Espacement intérieur
         marginVertical: 10, // Espacement vertical
-        height: 50, // Hauteur globale
+        height: 40, // Hauteur globale
         justifyContent: 'center', // Centrer le contenu
       },
-    pickerText: {
-        fontSize: 12,
-        textAlign: 'center',
-        color: '#848A9C',
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
       },
-    applyButton: {
+      modalAppBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#336699',
+        padding: 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        width: 308, // Ajustement pour la largeur du conteneur
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 10,
+      },
+      modalAppBarTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#ffffff',
+      },
+      modalSubtitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#848A9C',
+        textAlign: 'left',
+        marginTop: 50, // Ajout d'un espace pour éviter le chevauchement avec l'AppBar
+        marginBottom: 20,
+      },
+      
+      modalContainer: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        width: '80%',
+      },
+      
+     
+      applyButton: {
         borderRadius: 8,
         paddingVertical: 10,
         paddingHorizontal: 20,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 20,
-        height:50,
+        height:40,
       },
-    applyButtonText: {
+      applyButtonText: {
         color: 'white',
         textAlign: 'center',
         fontSize: 16,
