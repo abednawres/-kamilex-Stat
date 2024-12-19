@@ -1,17 +1,34 @@
 import React from "react";
-import {View,Text,StyleSheet,TouchableOpacity,ScrollView,TextInput,} from "react-native";
+import {View,Text,StyleSheet,TouchableOpacity,ScrollView,TextInput,Image,} from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MyLineChart from "../components/MyLineChart";
 import InfoCard from "../components/InfoCard";
 
-export default function Dashboard({ navigation }) {
+// Importez les écrans déjà définis dans AppNavigator.js
+import UsersManagementScreen from "../screens/UsersManagementScreen";
+import CompaniesScreen from "../screens/CompaniesScreen";
+import ValuesManagementScreen from "../screens/ValuesManagementScreen";
+import FolderManagementScreen from "../screens/FolderManagementScreen";
+import TokenManagementScreen from "../screens/TokenManagementScreen";
+
+// Create Bottom Tab Navigator
+const Tab = createBottomTabNavigator();
+
+function DashboardContent({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {/* App Bar */}
       <View style={styles.appBarContainer}>
-        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={18} color="white" />
-        </TouchableOpacity> */}
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backIconContainer}
+        >
+          <Icon name="arrow-left" size={18} color="white" style={styles.backIcon} />
+        </TouchableOpacity>
       </View>
+
+      {/* Page Title */}
       <View style={styles.titleContainer}>
         <TouchableOpacity
           onPress={() => navigation.openDrawer()}
@@ -21,6 +38,7 @@ export default function Dashboard({ navigation }) {
         </TouchableOpacity>
         <Text style={styles.title}>Dashboard</Text>
       </View>
+
       <Text style={styles.adminText}>Hello Administrator</Text>
       <Text style={styles.infoText}>
         The following data pertains to your app
@@ -31,10 +49,8 @@ export default function Dashboard({ navigation }) {
         placeholderTextColor="#C9C9C9"
       />
 
-      {/* Ajouter l'histogramme ici */}
       <MyLineChart />
 
-      {/* Ajouter les cartes ici */}
       <InfoCard
         title="Total Users"
         value="1500"
@@ -74,23 +90,80 @@ export default function Dashboard({ navigation }) {
   );
 }
 
+export default function DashboardWithBottomNav() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === "Dashboard") {
+            iconName = focused ? "home" : "home";
+          } else if (route.name === "UsersManagement") {
+            iconName = focused ? "users" : "users";
+          } else if (route.name === "TokenManagement") {
+            iconName = focused ? "bar-chart" : "bar-chart";
+          } else if (route.name === "Companies") {
+            iconName = focused ? "building" : "building-o";
+          } else if (route.name === "FolderManagement") {
+            iconName = focused ? "folder" : "folder-o";
+          } else if (route.name === "ValuesManagement") {
+            iconName = focused ? "warning" : "warning-o";
+          }
+
+          return <Icon name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#9DB0CE",
+        tabBarInactiveTintColor: "#C9C9C9",
+        headerShown: false,
+        tabBarStyle: {
+          height: 80,
+          paddingBottom: 10,
+          paddingTop: 10,
+        },
+      })}
+    >
+      <Tab.Screen name="Dashboard" component={DashboardContent} />
+      <Tab.Screen name="UsersManagement" component={UsersManagementScreen} />
+      <Tab.Screen name="TokenManagement" component={TokenManagementScreen} />
+      <Tab.Screen name="Companies" component={CompaniesScreen} />
+      <Tab.Screen name="FolderManagement" component={FolderManagementScreen} />
+      <Tab.Screen name="ValuesManagement" component={ValuesManagementScreen} />
+    </Tab.Navigator>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "#FAFAFA",
-    paddingBottom: 20,
+
   },
   appBarContainer: {
     height: 80,
-    justifyContent: "center",
-    paddingLeft: 25,
-    backgroundColor: "#336699",
-    zIndex: 999,
+    backgroundColor: '#336699',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  backIconContainer: {
+    position: "absolute",
+    left: 20,
+  },
+  backIconContainer: {
+    position: "absolute",
+    left: 20,
+    top: 50, // Ajustez cette valeur pour déplacer l'icône vers le bas
+  },
+  backIcon: {
+    transform: [{ translateY: -5 }],
   },
   titleContainer: {
-    marginTop: 10,
-    alignItems: "center",
-    flexDirection: "row",
+    marginTop: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   menuIconContainer: {
     position: "absolute",
@@ -103,7 +176,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#336699",
     marginBottom: 20,
-    marginLeft: 120,
   },
   adminText: {
     fontWeight: "bold",

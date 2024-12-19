@@ -46,7 +46,7 @@ export default function Settings({ navigation }) {
 <View style={styles.divider} />
 <TouchableOpacity
   style={styles.section}
-  onPress={() => navigation.navigate(' PrivacyPolicy')}
+  onPress={() => navigation.navigate('PrivacyPolicy')}
 >
   <View style={styles.sectionContent}>
     <Icon name="shield" style={styles.icon} />

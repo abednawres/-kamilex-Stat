@@ -9,8 +9,8 @@ export default function EditProfile({ navigation }) {
   const [name, setName] = useState('John Doe'); // Nom de l'utilisateur
   const [email] = useState('john.doe@example.com'); // Email de l'utilisateur (non modifiable)
   const handleChangePassword = () => {
-    // Naviguer vers l'écran de changement de mot de passe (EditPassword)
-    navigation.navigate(' EditPassword');
+    
+    navigation.navigate('EditPassword');
   };
   return (
     <View style={styles.container}>
@@ -23,7 +23,7 @@ export default function EditProfile({ navigation }) {
     {/* Titre centré avec l'icône de paramètre */}
     <View style={styles.pageTitleContainer}>
   <Text style={styles.pageTitle}>Profile</Text>
-  <TouchableOpacity onPress={() => navigation.navigate(' Settings')} style={styles.settingsIcon}>
+  <TouchableOpacity onPress={() => navigation.navigate('Settings')} style={styles.settingsIcon}>
   <Icon name="cog" size={24} color="#336699" />
   
 </TouchableOpacity>
